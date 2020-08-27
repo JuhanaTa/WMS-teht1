@@ -9,7 +9,7 @@ const ListItem = (props) => {
     <TouchableOpacity style={styles.kittenContainer}>
       <View style={styles.cat}>
         <Image
-          style={{width: 100, height: 100}}
+          style={[styles.image, styles.position]}
           source={{uri: props.item.thumbnails.w160}}
         />
       </View>
@@ -22,24 +22,31 @@ const ListItem = (props) => {
 };
 const styles = StyleSheet.create({
   cat: {
-    width: '30%',
-    marginLeft: 30,
-    marginTop: 30,
+    margin: 10,
+    flex: 1,
   },
   info: {
-    width: '65%',
+    margin: 12,
+    flex: 2,
   },
-
   kittenContainer: {
-    marginTop: 5,
-    flexDirection: 'row',
     backgroundColor: 'gray',
+    flexDirection: 'row',
+    marginTop: 5,
+    flex: 1,
   },
   title: {
     fontSize: 25,
   },
   text: {
     fontSize: 15,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+  },
+  position: {
+
   },
 });
 
