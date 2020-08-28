@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import ListItem from '../components/ListItem'
+import ListItem from '../components/ListItem';
 import React from 'react';
 import {
   FlatList,
