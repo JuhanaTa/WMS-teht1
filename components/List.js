@@ -18,7 +18,7 @@ const List = () => {
       console.log(json);
       setMedia(json);
     } catch (e) {
-      console.log('error' + e);
+      console.log('loadmedia error: ' + e);
     }
   };
 
