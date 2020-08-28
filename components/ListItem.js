@@ -3,14 +3,15 @@ import {
   StyleSheet, Text, View, TouchableOpacity, Image,
 } from 'react-native';
 import PropTypes from 'prop-types';
-
+// url to api
+const mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 const ListItem = (props) => {
   return (
     <TouchableOpacity style={styles.kittenContainer}>
       <View style={styles.cat}>
         <Image
           style={[styles.image, styles.position]}
-          source={{uri: props.item.thumbnails.w160}}
+          source={{uri: mediaUrl + props.item.thumbnails.w160}}
         />
       </View>
       <View style={styles.info}>
