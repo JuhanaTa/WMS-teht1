@@ -18,7 +18,7 @@ const App = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
+    paddingTop: 25,
     flex: 1,
     justifyContent: 'space-between',
   },

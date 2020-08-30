@@ -20,7 +20,7 @@ const List = () => {
         const json = await response.json();
         return json;
       }));
-
+      console.log(media);
       setMedia(media);
     } catch (e) {
       console.log('loadmedia error: ' + e);
