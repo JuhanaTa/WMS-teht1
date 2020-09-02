@@ -4,11 +4,12 @@ import React, {useState, useEffect} from 'react';
 import {
   FlatList,
 } from 'react-native';
+import PropTypes from 'prop-types';
 // url to api
 const url = 'http://media.mw.metropolia.fi/wbma/';
 
 
-const List = () => {
+const List = (props) => {
   const [mediaArray, setMedia] = useState([]);
 
   const loadMedia = async (limit) => {
@@ -28,7 +29,7 @@ const List = () => {
   };
 
   useEffect(() => {
-    loadMedia(5);
+    loadMedia(10);
   }, []);
 
   return (
@@ -37,12 +38,15 @@ const List = () => {
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) => {
         return (
-          <ListItem item={item}></ListItem>
+          <ListItem navigation={props.navigation} item={item}></ListItem>
         );
       }}
     />
   );
 };
 
+List.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default List;

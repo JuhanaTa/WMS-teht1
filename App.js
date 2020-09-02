@@ -1,27 +1,11 @@
 /* eslint-disable max-len */
-import List from './components/List';
-import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-} from 'react-native';
+import Navigator from './navigators/Navigator';
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <List></List>
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    <Navigator ></Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 25,
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-});
 
 export default App;

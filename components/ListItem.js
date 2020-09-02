@@ -7,7 +7,13 @@ import PropTypes from 'prop-types';
 const mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 const ListItem = (props) => {
   return (
-    <TouchableOpacity style={styles.kittenContainer}>
+    <TouchableOpacity onPress={
+      () => {
+        props.navigation.navigate('Single', {file: props.item});
+      }
+    }
+    style={styles.kittenContainer}
+    >
       <View style={styles.cat}>
         <Image
           style={[styles.image, styles.position]}
@@ -33,8 +39,9 @@ const styles = StyleSheet.create({
   kittenContainer: {
     backgroundColor: 'gray',
     flexDirection: 'row',
-    marginTop: 5,
     flex: 1,
+    borderRadius: 20,
+    margin: 5,
   },
   title: {
     fontSize: 25,
@@ -54,6 +61,8 @@ const styles = StyleSheet.create({
 
 ListItem.propTypes = {
   item: PropTypes.object,
+  navigation: PropTypes.object,
 };
+
 
 export default ListItem;
