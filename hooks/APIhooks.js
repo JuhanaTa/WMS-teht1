@@ -47,6 +47,26 @@ const postLogin = async (userCredentials) => {
   }
 };
 
+const postRegistration = async (newUser) => {
+  const options = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(newUser),
+  };
+  try {
+    console.log('new user: ' +newUser);
+    const response = await fetch(apiUrl+ 'users', options);
+    const result = await response.json();
+    if (response.ok) {
+      return result;
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
 const checkToken = async (token) => {
   const options = {
     method: 'GET',
@@ -65,4 +85,4 @@ const checkToken = async (token) => {
   }
 };
 
-export {useLoadMedia, postLogin, checkToken};
+export {useLoadMedia, postLogin, postRegistration, checkToken};

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-FormTextInput.PropTypes = {
-  style: PropTypes.objects,
+FormTextInput.propTypes = {
+  style: PropTypes.func,
 };
 export default FormTextInput;

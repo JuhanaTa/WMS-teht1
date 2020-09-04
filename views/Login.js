@@ -9,10 +9,10 @@ import {AuthContext} from '../contexts/AuthContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import {checkToken} from '../hooks/APIhooks';
 import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 
 const Login = (props) => { // props is needed for navigation
-  const [isLoggedIn, setIsLoggedIn] = useContext(AuthContext);
-  console.log('Login', isLoggedIn);
+  const {setIsLoggedIn, setUser} = useContext(AuthContext);
 
   const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -21,11 +21,12 @@ const Login = (props) => { // props is needed for navigation
       try {
         const userData = await checkToken(userToken);
         console.log('token valid', userData);
+        setUser(userData);
         setIsLoggedIn(true);
       } catch (e) {
         console.log('token check error ', e.message);
       }
-      // props.navigation.navigate('Home');
+      props.navigation.navigate('Home');
     }
   };
   useEffect(() => {
@@ -36,6 +37,7 @@ const Login = (props) => { // props is needed for navigation
     <View style={styles.container}>
       <Text>Login</Text>
       <LoginForm navigation={props.navigation}/>
+      <RegisterForm navigation={props.navigation}/>
     </View>
   );
 };

@@ -23,7 +23,7 @@ const TabScreen = () => {
 };
 
 const StackScreen = () => {
-  const [isLoggedIn] = useContext(AuthContext);
+  const {isLoggedIn} = useContext(AuthContext);
   return (
     <Stack.Navigator>
       {isLoggedIn ? (
