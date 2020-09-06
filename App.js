@@ -6,6 +6,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app! THis is test</Text>
+      <Text>This is just testing for github task</Text>
       <StatusBar style="auto" />
     </View>
   );
@@ -20,3 +21,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
