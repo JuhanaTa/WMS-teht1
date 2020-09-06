@@ -9,6 +9,7 @@ export default function App() {
       <Text>Open up App.js to start working on your app! THis is test</Text>
       <Text>Niklas was here</Text>
       <Text>This is just testing for github task</Text>
+      <Text>This is just second text row for testing github (github task)</Text>
       <button>this is some random button</button>
       <StatusBar style="auto" />
     </View>
