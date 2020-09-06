@@ -7,6 +7,7 @@ export default function App() {
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app! THis is test</Text>
       <Text>This is just testing for github task</Text>
+      <Text>This is just second text row for testing github (github task)</Text>
       <StatusBar style="auto" />
     </View>
   );
