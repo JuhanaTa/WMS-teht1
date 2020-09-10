@@ -9,6 +9,7 @@ import Single from '../views/Single';
 import Login from '../views/Login';
 import {AuthContext} from '../contexts/AuthContext';
 
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -16,7 +17,7 @@ const Stack = createStackNavigator();
 const TabScreen = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Home" component={Home} ></Tab.Screen>
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );

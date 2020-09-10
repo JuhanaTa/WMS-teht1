@@ -85,4 +85,19 @@ const checkToken = async (token) => {
   }
 };
 
-export {useLoadMedia, postLogin, postRegistration, checkToken};
+const getAvatar = async () => {
+  try {
+    const response = await fetch(apiUrl+ 'tags/avatar_663');
+
+    const avatarImages = await response.json();
+    if (response.ok) {
+      return avatarImages;
+    } else {
+      throw new Error(avatarImages.message);
+    }
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+export {useLoadMedia, postLogin, postRegistration, checkToken, getAvatar};

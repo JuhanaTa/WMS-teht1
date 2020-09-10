@@ -1,44 +1,46 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, Text, Image, View} from 'react-native';
+import {Image} from 'react-native';
 import PropTypes from 'prop-types';
+import {Container,
+  Card,
+  CardItem,
+  Left, Icon,
+  Title,
+  Text,
+  Content} from 'native-base';
 
 const mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
 const Single = (props) => {
   const {file} = props.route.params;
-  console.log('filu: ' +file.thumbnails.w160);
+  console.log('filu: ' + file.thumbnails.w160);
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>{file.title}</Text>
-      <View style={styles.imageBox}>
-        <Image
-          style={[styles.image, styles.position]}
-          source={{uri: mediaUrl + file.thumbnails.w160}}
-        />
-      </View>
-      <Text style={styles.text}>{file.description}</Text>
-    </SafeAreaView>
+
+    <Container>
+      <Content padder>
+        <Card>
+          <CardItem>
+            <Left>
+              <Icon name={'image'} />
+              <Title>{file.title}</Title>
+            </Left>
+          </CardItem>
+          <CardItem cardBody>
+            <Image source={{uri: mediaUrl + file.thumbnails.w160}}
+              style={{height: 400, width: null, flex: 1}}
+            />
+          </CardItem>
+          <CardItem>
+            <Text>
+              {file.description}
+            </Text>
+          </CardItem>
+        </Card>
+      </Content>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  image: {
-    width: '70%',
-    height: '70%',
-    marginLeft: '15%',
-    marginRight: '15%',
-
-  },
-  header: {
-    textAlign: 'center',
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-  text: {
-    textAlign: 'center',
-  },
-
-});
 
 Single.propTypes = {
   route: PropTypes.object,

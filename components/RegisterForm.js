@@ -1,14 +1,12 @@
 import React, {useContext} from 'react';
-import {
-  View,
-  Button,
-} from 'react-native';
+import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import {AuthContext} from '../contexts/AuthContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import {postRegistration, postLogin} from '../hooks/APIhooks';
 import FormTextInput from './FormTextInput';
 import useSignUpForm from '../hooks/RegisterHooks';
+import {Button, Text} from 'native-base';
 
 const RegisterForm = ({navigation}) => {
   const {setUser, setIsLoggedIn} = useContext(AuthContext);
@@ -23,7 +21,7 @@ const RegisterForm = ({navigation}) => {
       });
       await AsyncStorage.setItem('userToken', userData.token);
       setIsLoggedIn(true);
-      setUser(userData);
+      setUser(userData.user);
     } catch (e) {
       console.log('register error ', e.message);
     }
@@ -53,7 +51,9 @@ const RegisterForm = ({navigation}) => {
         placeholder="full name"
         onChangeText={(txt) => handleInputChange('full_name', txt)}
       />
-      <Button title="Register!" onPress={doRegister}/>
+      <Button block onPress={doRegister}>
+        <Text>Register</Text>
+      </Button>
     </View>
   );
 };
