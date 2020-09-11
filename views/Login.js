@@ -1,14 +1,16 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {AuthContext} from '../contexts/AuthContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import {checkToken} from '../hooks/APIhooks';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
-import {Container, Content} from 'native-base';
+import {Container, Content, Button, Text, View} from 'native-base';
 
 const Login = (props) => { // props is needed for navigation
   const {setIsLoggedIn, setUser, user} = useContext(AuthContext);
+  const [showRegistration, setShowRegister] = useState(true);
+
 
   const getToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
@@ -28,12 +30,23 @@ const Login = (props) => { // props is needed for navigation
   useEffect(() => {
     getToken();
   }, []);
-  console.log('user login.js: '+user);
+  console.log('user login.js: ' + user);
   return (
     <Container >
       <Content padder>
-        <LoginForm navigation={props.navigation}/>
-        <RegisterForm navigation={props.navigation}/>
+        {showRegistration ?
+          <LoginForm navigation={props.navigation} /> :
+          <RegisterForm navigation={props.navigation} />
+        }
+        <View style={{alignItems: 'center'}}>
+          <Text> {showRegistration ? 'No account yet?' : ''}</Text>
+        </View>
+        <Button block onPress={() => {
+          setShowRegister(!showRegistration);
+        }}>
+          <Text> {showRegistration ? 'Register' : 'Login'}</Text>
+        </Button>
+
       </Content>
     </Container>
   );

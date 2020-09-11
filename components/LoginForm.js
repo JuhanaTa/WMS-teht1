@@ -10,8 +10,18 @@ import {Button, Text} from 'native-base';
 
 const LoginForm = ({navigation}) => {
   const {setUser, setIsLoggedIn} = useContext(AuthContext);
+  const {
+    handleInputChange,
+    inputs,
+    loginErrors,
+    validateOnSend,
+  } = useLoginForm();
 
   const doLogin = async () => {
+    if (!validateOnSend()) {
+      console.log('validate on send failed');
+      return;
+    }
     try {
       const userData = await postLogin(inputs);
       setUser(userData.user);
@@ -24,8 +34,6 @@ const LoginForm = ({navigation}) => {
     }
   };
 
-  const {handleInputChange, inputs} = useLoginForm();
-
   return (
 
     <View>
@@ -33,12 +41,14 @@ const LoginForm = ({navigation}) => {
         autoCapitalize="none"
         placeholder="username"
         onChangeText={(txt) => handleInputChange('username', txt)}
+        error={loginErrors.username}
       />
       <FormTextInput
         autoCapitalize="none"
         placeholder="password"
         onChangeText={(txt) => handleInputChange('password', txt)}
         secureTextEntry={true}
+        error={loginErrors.password}
       />
       <Button block onPress={doLogin}>
         <Text>login</Text>

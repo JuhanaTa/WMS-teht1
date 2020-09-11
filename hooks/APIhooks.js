@@ -48,13 +48,15 @@ const postLogin = async (userCredentials) => {
 };
 
 const postRegistration = async (newUser) => {
+  delete newUser.confirmPassword;
+  console.log(newUser);
   const options = {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(newUser),
   };
   try {
-    console.log('new user: ' +newUser);
+    console.log(newUser);
     const response = await fetch(apiUrl+ 'users', options);
     const result = await response.json();
     if (response.ok) {
@@ -100,4 +102,31 @@ const getAvatar = async () => {
   }
 };
 
-export {useLoadMedia, postLogin, postRegistration, checkToken, getAvatar};
+const checkUsername = async (username) => {
+  try {
+    const response = await fetch(apiUrl+ 'users/username/' +username);
+
+    const result = await response.json();
+    if (response.ok) {
+      if (result.available) {
+        return null;
+      } else {
+        return 'Username ' + username + ' is not available';
+      }
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+
+export {
+  useLoadMedia,
+  postLogin,
+  postRegistration,
+  checkToken,
+  getAvatar,
+  checkUsername,
+};
