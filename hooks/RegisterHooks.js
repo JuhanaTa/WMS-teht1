@@ -91,6 +91,13 @@ const useSignUpForm = (callback) => {
         return false;
       }
     }
+    inputs= {
+      username: '',
+      password: '',
+      confirmPassword: '',
+      email: '',
+      full_name: '',
+    };
     return true;
   };
 
