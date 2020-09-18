@@ -9,41 +9,54 @@ import {
   Button,
   Text,
   Card,
-  CardItem} from 'native-base';
+  CardItem, Spinner} from 'native-base';
 import FormTextInput from '../components/FormTextInput';
 import useUploadForm from '../hooks/UploadHooks';
 import * as ImagePicker from 'expo-image-picker';
 // eslint-disable-next-line no-unused-vars
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
-import {upload} from '../hooks/APIhooks';
+import {upload, appIdentifier, postTag} from '../hooks/APIhooks';
 import AsyncStorage from '@react-native-community/async-storage';
 
 
 const Upload = ({navigation}) => {
   const [image, setImage] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   const doUpload = async () => {
-    const formData = new FormData();
-    formData.append('title', inputs.title);
-    formData.append('description', inputs.description);
+    setLoader(true);
+    try {
+      const formData = new FormData();
+      formData.append('title', inputs.title);
+      formData.append('description', inputs.description);
 
-    const filename = image.split('/').pop();
-    const match = /\.(\w+)$/.exec(filename);
-    let type = match ? `image/${match[1]}` : `image`;
-    if (type === 'image/jpg') type = 'image/jpeg';
+      const filename = image.split('/').pop();
+      const match = /\.(\w+)$/.exec(filename);
+      let type = match ? `image/${match[1]}` : `image`;
+      if (type === 'image/jpg') type = 'image/jpeg';
 
-    formData.append('file', {uri: image, name: filename, type});
-    // haetaa tokeni
-    const userToken = await AsyncStorage.getItem('userToken');
-    // uploadi
-    console.log(formData);
-    const resp = await upload(formData, userToken);
-    console.log('Upload ', resp);
-    setTimeout(() => {
-      doReset();
-      navigation.push('Home');
-    }, 2000);
+      formData.append('file', {uri: image, name: filename, type});
+      // haetaa tokeni
+      const userToken = await AsyncStorage.getItem('userToken');
+      // uploadi
+      const resp = await upload(formData, userToken);
+      console.log('image uploaded next is tag');
+      const postTagResponse = await postTag({
+        file_id: resp.file_id,
+        tag: appIdentifier,
+      }, userToken);
+
+      console.log('posting tag: ', postTagResponse);
+
+      setTimeout(() => {
+        doReset();
+        navigation.push('Home');
+        setLoader(false);
+      }, 2000);
+    } catch (e) {
+      console.log('error: ', e);
+    }
   };
 
   const {
@@ -122,6 +135,7 @@ const Upload = ({navigation}) => {
           } onPress={doUpload}>
           <Text>Upload</Text>
         </Button>
+        {loader && <Spinner />}
         <Button block
           onPress={doReset}>
           <Text>Reset</Text>
