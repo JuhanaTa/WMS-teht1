@@ -10,32 +10,56 @@ import {ListItem as NBListItem,
   Button,
   Icon,
 } from 'native-base';
+import {deleteFile} from '../hooks/APIhooks';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // url to api
 const mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
-
-const ListItem = (props) => {
+const ListItem = ({item, navigation, editable}) => {
+  const doDelete = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    try {
+      const result = await deleteFile(item.file_id, token);
+      console.log('delete file: ' +result);
+      navigation.replace('MyFiles');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  console.log('ListItem');
+  console.log(item);
   return (
     <NBListItem thumbnail>
       <Left>
         <Thumbnail
           square
-          source={{uri: mediaUrl + props.item.thumbnails.w160}}
+          source={{uri: mediaUrl + item.thumbnails.w160}}
         />
       </Left>
       <Body>
-        <Text>{props.item.title}</Text>
-        <Text note numberOfLines={1}>{props.item.description}</Text>
+        <Text>{item.title}</Text>
+        <Text note numberOfLines={1}>{item.description}</Text>
       </Body>
       <Right>
         <Button transparent onPress={
           () => {
-            props.navigation.navigate('Single', {file: props.item});
+            navigation.navigate('Single', {file: item});
           }}>
           <Icon name={'eye'}></Icon>
-          <Text>View</Text>
         </Button>
+        {editable && <>
+          <Button success transparent onPress={
+            () => {
+              navigation.navigate('Modify', {file: item});
+            }}>
+            <Icon name={'create'}></Icon>
+          </Button>
+          <Button warning transparent onPress={doDelete}>
+            <Icon name={'trash'}></Icon>
+          </Button>
+        </>
+        }
       </Right>
     </NBListItem>
   );
@@ -45,6 +69,7 @@ const ListItem = (props) => {
 ListItem.propTypes = {
   item: PropTypes.object,
   navigation: PropTypes.object,
+  editable: PropTypes.bool,
 };
 
 

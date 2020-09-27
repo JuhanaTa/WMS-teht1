@@ -66,6 +66,11 @@ const Profile = ({navigation}) => {
                 <Button block onPress={logout}>
                   <Text>Logout</Text>
                 </Button>
+                <Button block onPress={() => {
+                  navigation.navigate('MyFiles');
+                }}>
+                  <Text>MyFiles</Text>
+                </Button>
               </Body>
             </CardItem>
           </Card>}

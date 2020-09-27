@@ -1,23 +1,26 @@
 /* eslint-disable max-len */
 import ListItem from '../components/ListItem';
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   FlatList,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {useLoadMedia} from '../hooks/APIhooks';
+import {AuthContext} from '../contexts/AuthContext';
 // url to api
 
 
-const List = (props) => {
-  const mediaArray = useLoadMedia();
+const List = ({navigation, all}) => {
+  const {user} = useContext(AuthContext);
+  const mediaArray = useLoadMedia(all, user.user_id);
+
   return (
     <FlatList
       data={mediaArray}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) => {
         return (
-          <ListItem navigation={props.navigation} item={item}></ListItem>
+          <ListItem navigation={navigation} item={item} editable={!all}></ListItem>
         );
       }}
     />
@@ -26,6 +29,7 @@ const List = (props) => {
 
 List.propTypes = {
   navigation: PropTypes.object,
+  all: PropTypes.bool,
 };
 
 export default List;

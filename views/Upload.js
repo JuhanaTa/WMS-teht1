@@ -8,8 +8,7 @@ import {
   Form,
   Button,
   Text,
-  Card,
-  CardItem, Spinner} from 'native-base';
+  Spinner} from 'native-base';
 import FormTextInput from '../components/FormTextInput';
 import useUploadForm from '../hooks/UploadHooks';
 import * as ImagePicker from 'expo-image-picker';
@@ -18,11 +17,13 @@ import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import {upload, appIdentifier, postTag} from '../hooks/APIhooks';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Video} from 'expo-av';
 
 
 const Upload = ({navigation}) => {
   const [image, setImage] = useState(null);
   const [loader, setLoader] = useState(false);
+  const [fileType, setFileType] = useState('image');
 
   const doUpload = async () => {
     setLoader(true);
@@ -33,8 +34,9 @@ const Upload = ({navigation}) => {
 
       const filename = image.split('/').pop();
       const match = /\.(\w+)$/.exec(filename);
-      let type = match ? `image/${match[1]}` : `image`;
+      let type = match ? `${fileType}/${match[1]}` : fileType;
       if (type === 'image/jpg') type = 'image/jpeg';
+
 
       formData.append('file', {uri: image, name: filename, type});
       // haetaa tokeni
@@ -51,7 +53,7 @@ const Upload = ({navigation}) => {
 
       setTimeout(() => {
         doReset();
-        navigation.push('Home');
+        navigation.replace('MyFiles');
         setLoader(false);
       }, 2000);
     } catch (e) {
@@ -90,6 +92,7 @@ const Upload = ({navigation}) => {
       });
       if (!result.cancelled) {
         setImage(result.uri);
+        setFileType(result.type);
       }
 
       console.log(result);
@@ -107,6 +110,21 @@ const Upload = ({navigation}) => {
   return (
     <Container>
       <Content padder>
+        {image &&
+          <>
+            {fileType === 'image' ?
+              <Image
+                source={{uri: image}}
+                style={{height: 400, width: null, flex: 1}}
+              /> :
+              <Video
+                source={{uri: image}}
+                style={{height: 400, width: null, flex: 1}}
+                useNativeControls={true}
+              />
+            }
+          </>
+        }
         <Form>
           <FormTextInput
             autoCapitalize="none"
@@ -140,13 +158,8 @@ const Upload = ({navigation}) => {
           onPress={doReset}>
           <Text>Reset</Text>
         </Button>
-        <Card>
-          <CardItem
-            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            {image && <Image source={{uri: image}}
-              style={{width: 300, height: 300}} />}
-          </CardItem>
-        </Card>
+
+
       </Content>
     </Container>
   );

@@ -6,7 +6,7 @@ const apiUrl = 'http://media.mw.metropolia.fi/wbma/';
 
 const appIdentifier = 'juhkuAPP';
 
-const useLoadMedia = () => {
+const useLoadMedia = (all, userId) => {
   const [mediaArray, setMedia] = useState([]);
   const loadMedia = async (limit) => {
     try {
@@ -18,7 +18,11 @@ const useLoadMedia = () => {
         const json2 = await resp2.json();
         return json2;
       }));
-      setMedia(media);
+      if (all) {
+        setMedia(media);
+      } else {
+        setMedia(media.filter((item) => item.user_id === userId));
+      }
     } catch (e) {
       console.log('loadmedia error: ' + e);
     }
@@ -159,6 +163,64 @@ const postTag = async (tag, token) => {
   }
 };
 
+const deleteFile = async (fileId, token) => {
+  const options = {
+    method: 'DELETE',
+    headers: {'x-access-token': token},
+  };
+  try {
+    const response = await fetch(apiUrl+'media/' + fileId, options);
+    const result = await response.json();
+    if (response.ok) {
+      return result;
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+const updateFile = async (fileId, fileInfo, token) => {
+  const options = {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json', 'x-access-token': token},
+    body: JSON.stringify(fileInfo),
+  };
+  try {
+    const response = await fetch(apiUrl+'media/' + fileId, options);
+    const result = await response.json();
+    if (response.ok) {
+      return result;
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
+const getUser = async (id, token) => {
+  console.log('user token: ' +token);
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token},
+  };
+  try {
+    const response = await fetch(apiUrl+'users/' + id, options);
+    const result = await response.json();
+    if (response.ok) {
+      return result;
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (e) {
+    throw new Error(e.message);
+  }
+};
+
 
 export {
   useLoadMedia,
@@ -170,4 +232,7 @@ export {
   upload,
   postTag,
   appIdentifier,
+  getUser,
+  deleteFile,
+  updateFile,
 };

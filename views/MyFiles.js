@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-const Home = (props) => {
+const MyFiles = (props) => {
   const {navigation} = props;
   return (
     <SafeAreaView style={styles.container}>
-      <List navigation={navigation} all={true}></List>
+      <List navigation={navigation} all={false}></List>
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
   },
 });
 
-Home.propTypes = {
+MyFiles.propTypes = {
   navigation: PropTypes.object,
 };
 
-export default Home;
+export default MyFiles;

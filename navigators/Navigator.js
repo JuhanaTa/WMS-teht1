@@ -9,6 +9,8 @@ import Single from '../views/Single';
 import Login from '../views/Login';
 import {AuthContext} from '../contexts/AuthContext';
 import Upload from '../views/Upload';
+import MyFiles from '../views/MyFiles';
+import Modify from '../views/Modify';
 
 
 const Tab = createBottomTabNavigator();
@@ -33,6 +35,8 @@ const StackScreen = () => {
         <>
           <Stack.Screen name="Home" component={TabScreen}/>
           <Stack.Screen name="Single" component={Single}/>
+          <Stack.Screen name="MyFiles" component={MyFiles}/>
+          <Stack.Screen name="Modify" component={Modify}/>
         </>
       ) : (
         <>
